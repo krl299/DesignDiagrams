@@ -35,9 +35,21 @@ class Path
 +   getNextWaypoint():  Waypoint
 }
 
+' Define the GameManager class
+class GameManager {
+  - gameTime: int
+  + spawnEnemies(): void
+  + upgradeTower(tower: Tower): void
+  + checkGameOver(): boolean
+}
+
 ' Define relationships between classes
 Tower --> Enemy :   attacks
 Enemy--> Base   :   attacks
 Enemy --> Path  :   follows
+GameManager --> Tower : manages
+GameManager --> Enemy : spawns
+GameManager --> Base : defends
+
 
 @enduml
