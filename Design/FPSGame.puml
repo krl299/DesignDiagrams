@@ -1,0 +1,67 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+' Define the Player class
+class Player {
+  - health: int
+  - position: Position
+  - inventory: List<Weapon>
+  + move(direction: String): void
+  + shoot(): void
+  + takeDamage(amount: int): void
+  + switchWeapon(weapon: Weapon): void
+}
+
+' Define the Weapon class
+class Weapon {
+  - ammoCount: int
+  - damage: int
+  - fireRate: float
+  + shoot(): void
+  + reload(): void
+}
+
+' Define the Enemy class
+class Enemy {
+  - health: int
+  - damage: int
+  - position: Position
+  + move(): void
+  + attack(player: Player): void
+  + takeDamage(amount: int): void
+}
+
+' Define the GameWorld class
+class GameWorld {
+  - objects: List<Object>
+  - boundaries: Boundaries
+  + generateLevel(): void
+  + update(): void
+}
+
+' Define the Position class to represent coordinates
+class Position {
+  - x: float
+  - y: float
+  - z: float
+}
+
+' Define the GameManager class
+class GameManager {
+  - currentLevel: int
+  + spawnEnemies(): void
+  + checkGameOver(): boolean
+  + managePlayer(player: Player): void
+}
+
+' Define relationships between classes
+GameManager --> Player : manages
+GameManager --> Enemy : spawns
+GameManager --> GameWorld : manages
+Player --> Weapon : uses
+Player --> Enemy : attacks
+Enemy --> Player : attacks
+GameWorld --> Enemy : contains
+GameWorld --> Player : contains
+
+@enduml
