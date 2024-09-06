@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+' Define the Tower class
+class Tower
+{
+-   attackDamage:   int
+-   range:  int
+-   fireRate:   int
++   attack(enemy: Enemy):   void
++   upgrade():  void
+}
+
+' Define the Enemy class
+class Enemy
+{
+-   health: int
+-   speed:  int
+-   damage: int
++   move(): void
++   takeDamage(amount: int):   void
+}
+
+' Define the Base class
+class Base
+{
+-   health: int
++   takeDamage(amount: int):    void
+}
+
+' Define the Path class
+class Path
+{
+-   waypoints:  List<Waypoint>
++   getNextWaypoint():  Waypoint
+}
+
+' Define relationships between classes
+Tower --> Enemy :   attacks
+Enemy--> Base   :   attacks
+Enemy --> Path  :   follows
+
+@enduml
