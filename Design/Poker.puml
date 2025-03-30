@@ -1,0 +1,110 @@
+@startuml
+' Definición de clases y enumerados
+
+class Jugador {
+  - nombre: String
+  - mano: Mano
+  - apuestaActual: int
+  + apostar(cantidad: int): void
+  + retirarse(): void
+  + mostrarMano(): Mano
+  + obtenerFichas(): Fichas
+  + establecerFichas(fichas: Fichas): void
+}
+
+class Mano {
+  - cartas: Carta[]
+  + calcularValor(): ValorMano
+}
+
+class Carta {
+  - valor: ValorCarta
+  - palo: Palo
+}
+
+enum ValorCarta {
+  DOS, TRES, CUATRO, CINCO, SEIS, SIETE, OCHO, NUEVE, DIEZ, JOTA, REINA, REY, AS
+}
+
+enum Palo {
+  CORAZONES, DIAMANTES, TREBOLES, PICAS
+}
+
+class ValorMano {
+  - tipo: TipoMano
+  - cartasSignificativas: Carta[]
+}
+
+enum TipoMano {
+  CARTA_ALTA, PAREJA, DOBLE_PAREJA, TRIO, ESCALERA, COLOR, FULL, POKER, ESCALERA_COLOR, ESCALERA_REAL
+}
+
+class Mesa {
+  - cartasComunitarias: Carta[]
+  - bote: int
+  + repartirCartasComunitarias(): void
+  + agregarApuestaAlBote(cantidad: int): void
+}
+
+class Juego {
+  - jugadores: Jugador[]
+  - mesa: Mesa
+  - baraja: Baraja
+  - repartidor: Repartidor
+  + iniciarRonda(): void
+  + determinarGanador(): Jugador
+}
+
+class Baraja {
+  - cartas: Carta[]
+  + barajar(): void
+  + repartirCarta(): Carta
+}
+
+class Fichas {
+  - cantidad: int
+  + agregarFichas(cantidad: int): void
+  + quitarFichas(cantidad: int): void
+  + obtenerCantidad(): int
+}
+
+class Repartidor {
+  - nombre: String
+  + repartirCartas(jugadores: Jugador[], baraja: Baraja): void
+  + gestionarApuestas(jugadores: Jugador[], mesa: Mesa): void
+  + pagarGanador(jugador: Jugador, mesa: Mesa): void
+}
+
+' Relaciones
+
+Jugador "1" -- "1" Mano : tiene
+Mano "5" --* "1" Carta : contiene
+Carta "1" -- "1" ValorCarta : tiene
+Carta "1" -- "1" Palo : tiene
+Mano "1" -- "1" ValorMano : calcula
+ValorMano "1" -- "1" TipoMano : tiene
+ValorMano "*" -- "5" Carta : tiene
+Mesa "5" --* "1" Carta : contiene
+Juego "1..*" -- "1" Jugador : tiene
+Juego "1" -- "1" Mesa : tiene
+Juego "1" -- "1" Baraja : tiene
+Juego "1" -- "1" Repartidor : tiene
+Baraja "*" --* "52" Carta : contiene
+Jugador "1" -- "1" Fichas : tiene
+
+' Notas y comentarios
+
+note top of Jugador: Representa a un jugador individual en el juego.
+note top of Mano: Contiene las cartas de un jugador y calcula su valor.
+note top of Carta: Representa una carta individual con valor y palo.
+note top of ValorCarta: Enumerado de los valores de las cartas.
+note top of Palo: Enumerado de los palos de las cartas.
+note top of ValorMano: Representa el valor de una mano y sus cartas significativas.
+note top of TipoMano: Enumerado de los tipos de manos de póquer.
+note top of Mesa: Contiene las cartas comunitarias y el bote.
+note top of Juego: Orquesta el juego, gestiona jugadores, mesa y baraja.
+note top of Baraja: Contiene y gestiona las cartas del juego.
+note top of Fichas: Representa la cantidad de fichas de un jugador.
+note top of Repartidor: Gestiona el reparto de cartas, apuestas y pagos.
+
+@enduml
